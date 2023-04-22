@@ -14,6 +14,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _auth = FirebaseAuth.instance;
   String? email;
   String? password;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,9 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             TextField(
               onChanged: (value) {
-                setState(() {
-                  email = value;
-                });
+                email = value;
               },
               style: TextStyle(color: Colors.red),
               decoration: InputDecoration(
@@ -62,9 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             TextField(
               onChanged: (value) {
-                setState(() {
-                  password = value;
-                });
+                password = value;
               },
               style: TextStyle(color: Colors.red),
               decoration: InputDecoration(

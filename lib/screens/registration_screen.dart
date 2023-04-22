@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import '../components/loginregisterbutton.dart';
+import 'chat_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
   static String id = 'registrationscreen';
@@ -9,8 +11,11 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  final _auth = FirebaseAuth.instance;
   var email;
   var password;
+  final emailcontroller = TextEditingController();
+  final passwordcontroller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,9 +37,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 48.0,
             ),
             TextField(
+              controller: emailcontroller,
               onChanged: (value) {
                 email = value;
               },
+              style: TextStyle(color: Colors.red),
               decoration: InputDecoration(
                 hintText: 'Enter your email',
                 contentPadding:
@@ -56,9 +63,11 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
               height: 8.0,
             ),
             TextField(
+              controller: passwordcontroller,
               onChanged: (value) {
                 password = value;
               },
+              style: TextStyle(color: Colors.red),
               decoration: InputDecoration(
                 hintText: 'Enter your password',
                 contentPadding:
@@ -81,7 +90,18 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
             ),
             TextFiledarea(
                 kloginreisterbuttoncolor: Colors.blueAccent,
-                kloginreisterbuttontext: 'Register'),
+                kloginreisterbuttontext: 'Register',
+                onpressed: () async {
+                  try {
+                    final user = await _auth.createUserWithEmailAndPassword(
+                        email: email.toString().trim(), password: password!);
+                    if (user != null) {
+                      Navigator.pushNamed(context, ChatScreen.id);
+                    } else {}
+                  } catch (e) {
+                    print(e);
+                  }
+                }),
           ],
         ),
       ),
